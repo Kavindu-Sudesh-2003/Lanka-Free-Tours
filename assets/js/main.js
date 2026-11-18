@@ -149,6 +149,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".menu");
   const nav = document.querySelector(".links");
   const header = document.querySelector(".header");
+  const heroVideo = document.querySelector(".hero-bg-video");
+
+  if (heroVideo && !reduceMotion && heroVideo.dataset.src) {
+    heroVideo.autoplay = true;
+    heroVideo.addEventListener("error", () => {
+      heroVideo.pause();
+      heroVideo.autoplay = false;
+    }, { once: true });
+    heroVideo.src = heroVideo.dataset.src;
+    heroVideo.load();
+    const playback = heroVideo.play();
+    if (playback && typeof playback.catch === "function") {
+      playback.catch(() => {
+        heroVideo.autoplay = false;
+      });
+    }
+  }
+
   const backToTop = document.createElement("button");
   backToTop.type = "button";
   backToTop.className = "back-to-top";
